@@ -1,0 +1,35 @@
+{
+  "name": "sphinx-web",
+  "version": "1.0.0",
+  "description": "Web UI for Sphinx",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack serve --mode development",
+    "build": "webpack --mode production"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bumetcs633-spring25-o1-team3/sphinx-web.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bumetcs633-spring25-o1-team3/sphinx-web/issues"
+  },
+  "homepage": "https://github.com/bumetcs633-spring25-o1-team3/sphinx-web#readme",
+  "dependencies": {
+    "preact": "^10.25.4"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.26.7",
+    "@babel/preset-env": "^7.26.7",
+    "@babel/preset-react": "^7.26.3",
+    "babel-loader": "^9.2.1",
+    "cross-env": "^7.0.3",
+    "html-webpack-plugin": "^5.6.3",
+    "webpack": "^5.97.1",
+    "webpack-cli": "^6.0.1",
+    "webpack-dev-server": "^5.2.0"
+  }
+}
