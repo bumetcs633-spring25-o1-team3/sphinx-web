@@ -4,8 +4,8 @@
   "description": "Web UI for Sphinx",
   "main": "index.js",
   "scripts": {
-    "dev": "npx tailwindcss-cli init -p && tailwindcss -i ./src/index.css -o ./src/output.css --watch & vite",
-    "build": "npx tailwindcss-cli init -p && tailwindcss -i ./src/index.css -o ./dist/output.css && vite build",
+    "dev": "vite",
+    "build": "vite build",
     "start": "vite preview"
   },
   "type": "module",
@@ -21,17 +21,14 @@
   },
   "homepage": "https://github.com/bumetcs633-spring25-o1-team3/sphinx-web#readme",
   "dependencies": {
-    "@tailwindcss/cli": "^4.0.3",
     "preact": "^10.25.4",
-    "preact-router": "^4.1.2",
-    "tailwindcss-cli": "^0.1.2"
+    "preact-router": "^4.1.2"
   },
   "devDependencies": {
     "@babel/core": "^7.26.7",
     "@babel/preset-env": "^7.26.7",
     "@babel/preset-react": "^7.26.3",
     "@preact/preset-vite": "^2.10.1",
-    "@tailwindcss/postcss": "^4.0.3",
     "babel-loader": "^9.2.1",
     "cross-env": "^7.0.3",
     "postcss-cli": "^11.0.0",

@@ -8,9 +8,6 @@ const App = () => {
         <Link href="/">Home</Link>
         <Link href="/quizzes">Quizzes</Link>
       </nav>
-      <div>
-        Tailwind should be blue now!
-      </div>
     </div>
   );
 };
