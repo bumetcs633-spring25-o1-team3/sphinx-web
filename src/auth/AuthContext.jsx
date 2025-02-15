@@ -6,7 +6,6 @@ export const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null); // store logged in user's data
-    const [loading, setLoading] = useState(true);
     const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
     useEffect(() => {
@@ -20,7 +19,6 @@ export const AuthProvider = ({ children }) => {
                 }
             })
             .catch(err => console.error('Auth check failed:', err))
-            .finally(() => setLoading(false));
     }, []);
 
     const signOut = async () => {
@@ -29,10 +27,6 @@ export const AuthProvider = ({ children }) => {
         });
         setUser(null);
     };
-
-    if (loading) {
-        return <div>Loading...</div>;
-    }
 
     // Provide authentication context to all child components
     return (
