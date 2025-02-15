@@ -7,12 +7,13 @@ import NotFound from './pages/NotFound';
 import { AuthProvider } from './auth/AuthContext.jsx';
 
 const Main = () => (
-  <AuthProvider>
-    <Router>
-      <App path="/" />
-      <Quizzes path="/quizzes" />
-      <NotFound default />
-    </Router>
+  <AuthProvider> {/* authentication state is available throughout application */}
+    <App>
+      <Router>
+        <Quizzes path="/quizzes" />
+        <NotFound default />
+      </Router>
+    </App>
   </AuthProvider>
 );
 
