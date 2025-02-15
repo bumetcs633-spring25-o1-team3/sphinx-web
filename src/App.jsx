@@ -6,13 +6,15 @@ const App = ({ children }) => {
   const { user, signOut } = useContext(AuthContext);
   const backendUrl = import.meta.env.VITE_BACKEND_URL;
   return (
-    <div>
+    <div className="app-container">
       <Navbar
         user={user}
         onSignOut={signOut}
         backendUrl={backendUrl}
       />
-      {children} {/* Router content goes here */}
+      <main className="main-content">
+        {children} {/* Router content goes here */}
+      </main>
     </div>
   );
 };

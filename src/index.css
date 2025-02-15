@@ -7,6 +7,9 @@ body {
   -moz-osx-font-smoothing: grayscale;
   color: #1a1a1a;
   line-height: 1.5;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
 }
 
 /* Base styles for headings */
@@ -14,6 +17,17 @@ h1, h2, h3, h4, h5, h6 {
   font-family: 'Open Sans', sans-serif;
   font-weight: 600;
   line-height: 1.2;
+}
+
+.app-container {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1;
+  overflow-y: auto;
 }
 
 .flashcard-grid {
