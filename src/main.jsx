@@ -4,13 +4,16 @@ import { Router } from 'preact-router';
 import App from './App';
 import Quizzes from './pages/Quizzes';
 import NotFound from './pages/NotFound';
+import { AuthProvider } from './auth/AuthContext.jsx';
 
 const Main = () => (
-  <Router>
-    <App path="/" />
-    <Quizzes path="/quizzes" />
-    <NotFound default />
-  </Router>
+  <AuthProvider>
+    <Router>
+      <App path="/" />
+      <Quizzes path="/quizzes" />
+      <NotFound default />
+    </Router>
+  </AuthProvider>
 );
 
 render(<Main />, document.getElementById('root'));
