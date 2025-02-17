@@ -7,18 +7,16 @@ const Quizzes = () => {
   const [numOfQuestions, setNumOfQuestions] = useState(0);
   const [numCorrect, setNumCorrect] = useState(0);
   const [guess, setGuess] = useState('');
-  const [correct, setCorrect] = useState<boolean>(null);
 
   function shuffleObject(obj) {
     const entries = Object.entries(obj);
-    for (let i = entries.length - 1; i &gt; 0; i--) {
-        const j = 
-            Math.floor(Math.random() * (i + 1));
-        [entries[i], entries[j]] = 
-            [entries[j], entries[i]];
+    for (let i = entries.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [entries[i], entries[j]] = [entries[j], entries[i]];
     }
     return Object.fromEntries(entries);
   }
+
 
   function checkGuess () {
     if (guess.toLowerCase() === Object.keys(remainingQuestions)[0]) {
@@ -42,11 +40,23 @@ const Quizzes = () => {
       remainingQuestions && 
       Object.entries(flashCards).length > 0 && 
       Object.entries(remainingQuestions).length > 0 && (
+        <>
+          <div>
+            Current Score: {numCorrect/numOfQuestions}
+          </div>
+          <div>
+              <h3>Definition: {Object.values(remainingQuestions)[0]}</h3>
+              <h3>What is the term?</h3>
+              <input type='text' onInput={setGuess} />
+              <button onClick={checkGuess} />
+            </div>
+        </>
+      )}
+      {Object.entries(flashCards).length > 0 && 
+      Object.entries(remainingQuestions).length === 0 && (
         <div>
-          <h3>Definition: {Object.values(remainingQuestions)[0]}</h3>
-          <h3>What is the term?</h3>
-          <input type='text' onInput={setGuess}/>
-          <button onClick={checkGuess}/>
+          <h3>Congratulations, you finished the quiz</h3>
+          <p>Your Score: {numCorrect/numOfQuestions}</p>
         </div>
       )}
     </>
