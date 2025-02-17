@@ -12,13 +12,17 @@ export const Navbar = ({ user, onSignOut, backendUrl }) => {
                     </div>
 
                     <div className="nav-links">
-                        <Link href="/" className="nav-link">
-                            <span>Home</span>
-                        </Link>
+                        {user ? (
+                            <>
+                                <Link href="/" className="nav-link">
+                                    <span>Home</span>
+                                </Link>
 
-                        <Link href="/quizzes" className="nav-link">
-                            <span>Flashcards</span>
-                        </Link>
+                                <Link href="/quizzes" className="nav-link">
+                                    <span>Flashcards</span>
+                                </Link>
+                            </>
+                        ) : null }
 
                         <div className="auth-section">
                             {user ? (
