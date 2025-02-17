@@ -1,0 +1,11 @@
+.greeting-container {
+    padding-top: 10vh;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.greeting-text {
+    width: fit-content;
+    align-self: center;
+}
