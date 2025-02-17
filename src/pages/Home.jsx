@@ -30,10 +30,10 @@ const Home = () => {
     const firstName = getFirstName(user?.name);
     return (
         <div className="greeting-container">
-            <h1 className="greeting-title">
+            <h1 className="greeting-text">
                 {getGreeting()}, {firstName}
             </h1>
-            <p className="greeting-subtitle">
+            <p className="greeting-text">
                 Your interactive learning platform for MET CS 633.
             </p>
         </div>
