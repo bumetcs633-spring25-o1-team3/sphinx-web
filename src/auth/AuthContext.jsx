@@ -10,11 +10,20 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         fetch(`${backendUrl}/auth/user`, {
-            credentials: 'include'
+            credentials: 'include',
+            headers: {
+                'Accept': 'application/json'
+            },
+            mode: 'cors'
         })
-            .then(res => res.json())
+            .then(res => {
+                console.log('Auth response status:', res.status);
+                console.log('Auth response headers:', [...res.headers.entries()]);
+                return res.json();
+            })
             .then(data => {
-                if (data.email) {
+                console.log('Auth response data:', data);
+                if (data && data.email) {
                     setUser(data);
                 }
             })
