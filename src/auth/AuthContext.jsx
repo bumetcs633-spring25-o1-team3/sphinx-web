@@ -8,22 +8,32 @@ export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null); // store logged in user's data
     const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
-    // In AuthContext.jsx
     useEffect(() => {
         const checkAuth = async () => {
             try {
+                console.log('Checking auth status...');
                 const res = await fetch(`${backendUrl}/auth/user`, {
-                    credentials: 'include',  // Important: include cookies
+                    credentials: 'include',
                     headers: {
                         'Accept': 'application/json'
                     }
                 });
 
+                console.log('Auth response status:', res.status);
+
+                // Log response headers
+                const headers = {};
+                res.headers.forEach((value, key) => {
+                    headers[key] = value;
+                });
+                console.log('Response headers:', headers);
+
                 if (res.ok) {
                     const data = await res.json();
-                    console.log('Auth response:', data);
+                    console.log('Auth response data:', data);
                     if (data && data.email) {
                         setUser(data);
+                        localStorage.setItem('lastAuthCheck', new Date().toISOString());
                     } else {
                         console.warn('Valid response but no user data:', data);
                         setUser(null);
@@ -35,8 +45,6 @@ export const AuthProvider = ({ children }) => {
             } catch (err) {
                 console.error('Auth check error:', err);
                 setUser(null);
-            } finally {
-                setLoading(false);
             }
         };
 
