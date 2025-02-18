@@ -1,6 +1,18 @@
 import { createContext } from 'preact';
 import { useState, useEffect } from 'preact/hooks';
 
+const fetchWithCredentials = (url, options = {}) => {
+    return fetch(url, {
+        ...options,
+        credentials: 'include',
+        headers: {
+            ...options.headers,
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+    });
+};
+
 // store authentication state, accessible throughout the app
 export const AuthContext = createContext(null);
 
@@ -9,26 +21,33 @@ export const AuthProvider = ({ children }) => {
     const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
     useEffect(() => {
-        fetch(`${backendUrl}/auth/user`, {
-            credentials: 'include',
-            headers: {
-                'Accept': 'application/json'
-            },
-            mode: 'cors'
-        })
-            .then(res => {
-                console.log('Auth response status:', res.status);
-                console.log('Auth response headers:', [...res.headers.entries()]);
-                return res.json();
-            })
-            .then(data => {
-                console.log('Auth response data:', data);
+        const checkAuth = async () => {
+            try {
+                const response = await fetchWithCredentials(`${backendUrl}/auth/user`);
+
+                if (!response.ok) {
+                    console.error('Auth check failed with status:', response.status);
+                    setError(`Authentication check failed: ${response.status}`);
+                    setLoading(false);
+                    return;
+                }
+
+                const data = await response.json();
+                console.log('Auth data received:', data);
+
                 if (data && data.email) {
                     setUser(data);
                 }
-            })
-            .catch(err => console.error('Auth check failed:', err))
-    }, []);
+            } catch (err) {
+                console.error('Auth check error:', err);
+                setError(`Authentication error: ${err.message}`);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        checkAuth();
+    }, [backendUrl]);
 
     const signOut = async () => {
         await fetch(`${backendUrl}/logout`, {
@@ -39,7 +58,13 @@ export const AuthProvider = ({ children }) => {
 
     // Provide authentication context to all child components
     return (
-        <AuthContext.Provider value={{ user, setUser, signOut }}>
+        <AuthContext.Provider value={{
+            user,
+            setUser,
+            signOut,
+            fetchWithCredentials: (path, options) =>
+                fetchWithCredentials(`${backendUrl}${path}`, options)
+        }}>
             {children}
         </AuthContext.Provider>
     );
