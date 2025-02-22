@@ -2,6 +2,7 @@ import { useContext, useState } from 'preact/hooks';
 import { AuthContext } from '../auth/AuthContext';
 import './CreateFlashcards.css';
 import { Plus, Minus } from 'lucide-react';
+import toast from 'react-hot-toast';
 
 const CreateFlashcards = () => {
     const { user } = useContext(AuthContext);
@@ -60,6 +61,7 @@ const CreateFlashcards = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         console.log('Submitting:', flashcardSet);
+        const loadingToast = toast.loading('Saving...');
         try {
             const flashcardsDTO = flashcardSet.flashcards.map(card => ({
                 question: card.term,
@@ -88,8 +90,22 @@ const CreateFlashcards = () => {
                 throw new Error('Failed to create flashcard set');
             }
 
+            toast.success('Flashcard set created successfully!', {
+                id: loadingToast,
+            });
+
+            setFlashcardSet({
+                name: '',
+                description: '',
+                flashcards: [{ term: '', definition: '' }]
+            });
+
         } catch (err) {
             console.error('Error creating flashcard set:', err);
+
+            toast.error('Failed to create flashcard set. Please try again.', {
+                id: loadingToast,
+            });
         }
     };
 
