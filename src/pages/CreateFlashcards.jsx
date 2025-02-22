@@ -5,6 +5,8 @@ import { Plus, Minus } from 'lucide-react';
 
 const CreateFlashcards = () => {
     const { user } = useContext(AuthContext);
+    const { authFetch } = useContext(AuthContext);
+    const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
     // If user is not authenticated, render nothing (PrivateRoute will handle redirect)
     if (!user) {
@@ -55,10 +57,40 @@ const CreateFlashcards = () => {
         }
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         console.log('Submitting:', flashcardSet);
-        // TODO: Submit to backend
+        try {
+            const flashcardsDTO = flashcardSet.flashcards.map(card => ({
+                question: card.term,
+                answer: card.definition,
+                createReverse: false // for now, we're not using the reverse option
+            }));
+
+            const requestBody = {
+                name: flashcardSet.name,
+                description: flashcardSet.description,
+                flashcards: flashcardsDTO,
+                isPublic: false // for now, we're setting all sets as private
+            };
+
+            const response = await authFetch(`${backendUrl}/flashcard-set`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestBody)
+            });
+
+            console.log('response ', response);
+
+            if (!response.ok) {
+                throw new Error('Failed to create flashcard set');
+            }
+
+        } catch (err) {
+            console.error('Error creating flashcard set:', err);
+        }
     };
 
     return (
