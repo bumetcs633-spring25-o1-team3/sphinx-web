@@ -8,6 +8,7 @@ import NotFound from './pages/NotFound';
 import AuthCallback from './auth/AuthCallback';
 import PrivateRoute from './components/PrivateRoute';
 import { AuthProvider } from './auth/AuthContext.jsx';
+import CreateFlashcards from './pages/CreateFlashcards';
 
 const Main = () => (
   <AuthProvider> {/* authentication state is available throughout application */}
@@ -15,6 +16,7 @@ const Main = () => (
       <Router>
         <AuthCallback path="/auth-callback" />
         <Home path="/" />
+        <PrivateRoute path="/create-flashcards" component={CreateFlashcards} />
         <PrivateRoute path="/quizzes" component={Quizzes} />
         <PrivateRoute default component={NotFound} />
       </Router>
