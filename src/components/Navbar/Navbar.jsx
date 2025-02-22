@@ -1,8 +1,14 @@
 import React from 'react';
 import './Navbar.css';
-import { Link } from 'preact-router';
+import { Link, useRouter } from 'preact-router';
 
 export const Navbar = ({ user, onSignOut, backendUrl }) => {
+
+    const [router] = useRouter();
+    const isLinkActive = (path) => {
+        return router.url === path;
+    };
+    
     return (
         <nav className="navbar">
             <div className="navbar-container">
@@ -14,12 +20,16 @@ export const Navbar = ({ user, onSignOut, backendUrl }) => {
                     <div className="nav-links">
                         {user ? (
                             <>
-                                <Link href="/" className="nav-link">
+                                <Link href="/" className={`nav-link ${isLinkActive('/') ? 'active' : ''}`}>
                                     <span>Home</span>
                                 </Link>
 
-                                <Link href="/quizzes" className="nav-link">
-                                    <span>Flashcards</span>
+                                <Link href="/create-flashcards" className={`nav-link ${isLinkActive('/create-flashcards') ? 'active' : ''}`}>
+                                    <span>Create New Flashcards</span>
+                                </Link>
+
+                                <Link href="/quizzes" className={`nav-link ${isLinkActive('/quizzes') ? 'active' : ''}`}>
+                                    <span>Your Flashcards</span>
                                 </Link>
                             </>
                         ) : null }
