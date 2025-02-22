@@ -1,50 +1,52 @@
-import { useState, useEffect } from "preact/hooks";
+import { useState, useContext, useEffect } from "preact/hooks";
 import { Link } from 'preact-router';
+import { backendUrl } from '../components/GlobalConsts.js';
 
-const FlashCards = () => {
-  const [flashCards, setFlashCards] = useState({});
-  const [flippedCards, setFlippedCards] = useState({});
+const Flashcards = () => {
+    const { user } = useContext(AuthContext);
+    const [flashCardSets, setFlashCardSets,] = useState([]);
 
-  useEffect(() => {
-    fetch('../../temp/flash_cards.json') // This will be replaced with a call to the backend later
-      .then(response => response.json())
-      .then(data => setFlashCards(data))
-      .catch(error => console.error('Error loading JSON:', error));
-  }, []);
+    const getFlashcards = async () => {
+        try {
+            const response = await fetch(`${backendUrl}/auth/refresh-token`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    refreshToken: tokens.refreshToken
+                })
+            });
 
-  const toggleFlip = (key) => {
-    setFlippedCards(prev => ({
-      ...prev,
-      [key]: !prev[key]
-    }));
+            if (response.ok) {
+                const data = await response.json();
+                localStorage.setItem('accessToken', data.accessToken);
+                localStorage.setItem('refreshToken', data.refreshToken);
+                setTokens({
+                    accessToken: data.accessToken,
+                    refreshToken: data.refreshToken
+                });
+                return data.accessToken;
+            } else {
+                // If refresh fails, sign out
+                signOut();
+                return null;
+            }
+        } catch (error) {
+            console.error('Token refresh failed:', error);
+            signOut();
+            return null;
+        }
+    };
+
+    
+    return (
+      <div>
+        <h1>404 - Page Not Found</h1>
+        <p>Oops! The page you're looking for doesn't exist.</p>
+      </div>
+    );
   };
-
-  return (
-    <>
-      <Link href="/" className="home-link">Home</Link>
-
-      {flashCards && Object.entries(flashCards).length > 0 && (
-        <div className="flashcard-grid">
-          {Object.entries(flashCards).map(([key, value]) => (
-            <div 
-              key={key} 
-              className={`flashcard ${flippedCards[key] ? 'flipped' : ''}`}
-              onClick={() => toggleFlip(key)}
-            >
-              <div className="flashcard-inner">
-                <div className="flashcard-front">
-                  <p>{key}</p>
-                </div>
-                <div className="flashcard-back">
-                  <p>{value}</p>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
-    </>
-  );
-};
-
-export default FlashCards;
+  
+  export default Flashcards;
+  

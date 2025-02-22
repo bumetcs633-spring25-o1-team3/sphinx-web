@@ -1,15 +1,13 @@
 import { useState, useEffect } from "preact/hooks";
 import { Link } from 'preact-router';
+import { getFlashcards } from '../components/FlashCardHelper.js';
 
-const FlashCardViewer = () => {
+const FlashCardViewer = (setId) => {
   const [flashCards, setFlashCards] = useState({});
   const [flippedCards, setFlippedCards] = useState({});
 
   useEffect(() => {
-    fetch('../../temp/flash_cards.json') // This will be replaced with a call to the backend later
-      .then(response => response.json())
-      .then(data => setFlashCards(data))
-      .catch(error => console.error('Error loading JSON:', error));
+    setFlashCards(getFlashcards(setId));
   }, []);
 
   const toggleFlip = (key) => {
