@@ -1,13 +1,21 @@
-import { useState, useEffect } from "preact/hooks";
+import { useState, useContext, useEffect } from "preact/hooks";
 import { Link } from 'preact-router';
 import { getFlashcards } from '../components/FlashCardHelper.js';
+import { AuthContext } from '../auth/AuthContext.jsx';
+import "./viewer.css";
 
-const FlashCardViewer = (setId) => {
+const FlashCardViewer = ({ id }) => {
   const [flashCards, setFlashCards] = useState({});
   const [flippedCards, setFlippedCards] = useState({});
+  const [title, setTitle] = useState('');
+  const [desc, setDesc] = useState('');
+  const { authFetch } = useContext(AuthContext);
 
-  useEffect(() => {
-    setFlashCards(getFlashcards(setId));
+  useEffect(async () => {
+    const resp = await getFlashcards(authFetch, id);
+    setFlashCards(resp.flashcards);
+    setTitle(resp.title);
+    setDesc(resp.description);
   }, []);
 
   const toggleFlip = (key) => {
@@ -19,26 +27,38 @@ const FlashCardViewer = (setId) => {
 
   return (
     <>
-      <Link href="/" className="home-link">Home</Link>
-
       {flashCards && Object.entries(flashCards).length > 0 && (
-        <div className="flashcard-grid">
-          {Object.entries(flashCards).map(([key, value]) => (
-            <div 
-              key={key} 
-              className={`flashcard ${flippedCards[key] ? 'flipped' : ''}`}
-              onClick={() => toggleFlip(key)}
-            >
-              <div className="flashcard-inner">
-                <div className="flashcard-front">
-                  <p>{key}</p>
+        <div className="flashcard-container">
+          <div className="flashcard-viewer">
+            <h3>{title}</h3>
+            <p>{desc}</p>
+          </div>
+          <div>
+            <Link href={`/quiz/${id}`} className="link-button" style={{ marginRight: "20px" }}>
+              Quiz
+            </Link>
+            <Link href={`/speed-challenge/${id}`} className="link-button">
+              Speed Challenge
+            </Link>
+          </div>
+          <div className="flashcard-grid">
+              {Object.entries(flashCards).map(([key, value]) => (
+                <div
+                  key={key}
+                  className={`flashcard ${flippedCards[key] ? 'flipped' : ''}`}
+                  onClick={() => toggleFlip(key)}
+                >
+                  <div className="flashcard-inner">
+                    <div className="flashcard-front">
+                      <p>{key}</p>
+                    </div>
+                    <div className="flashcard-back">
+                      <p>{value}</p>
+                    </div>
+                  </div>
                 </div>
-                <div className="flashcard-back">
-                  <p>{value}</p>
-                </div>
-              </div>
+              ))}
             </div>
-          ))}
         </div>
       )}
     </>

@@ -1,17 +1,33 @@
-import { useState, useEffect } from "preact/hooks";
+import { useState, useContext, useEffect } from "preact/hooks";
+import { getFlashcards } from '../components/FlashCardHelper.js';
+import { AuthContext } from '../auth/AuthContext.jsx';
+import { shuffleArray } from "../components/GlobalConsts.js";
+import './challenge.css'
 
-const FlashcardGame = () => {
+const SpeedChallenge = ({ id }) => {
   const [index, setIndex] = useState(0);
   const [score, setScore] = useState(0);
-  const [timeLeft, setTimeLeft] = useState(5);
+  const [timeLeft, setTimeLeft] = useState(10);
   const [gameOver, setGameOver] = useState(false);
-  const [flashCards, setFlashCards] = useState({});
+  const [flashCards, setFlashCards] = useState([]);
+  const [currentOptions, setCurrentOptions] = useState([]);
+  const [title, setTitle] = useState('');
+  const { authFetch } = useContext(AuthContext);
 
   useEffect(() => {
-    useEffect(() => {
-      setFlashCards(getFlashcards(setId));
-    }, []);
-  }, [])
+    const fetchFlashcards = async () => {
+      const resp = await getFlashcards(authFetch, id);
+      const shuffledCards = shuffleArray(Object.entries(resp.flashcards).map(([term, definition]) => ({
+        term,
+        definition
+      })));
+      setFlashCards(shuffledCards);
+      setCurrentOptions(getFlashcardOptions(shuffledCards, index));
+      setTitle(resp.title);
+    };
+
+    fetchFlashcards();
+  }, [authFetch, id]);
 
   useEffect(() => {
     if (timeLeft > 0) {
@@ -24,37 +40,56 @@ const FlashcardGame = () => {
 
   const nextCard = (isCorrect) => {
     if (isCorrect) setScore(score + timeLeft * 10);
+    console.log(currentOptions);
     if (index < flashCards.length - 1) {
       setIndex(index + 1);
-      setTimeLeft(5);
+      setTimeLeft(10);
+      setCurrentOptions(getFlashcardOptions(flashCards, index));
     } else {
       setGameOver(true);
     }
   };
 
+  const getFlashcardOptions = (flashCards, index) => {
+    const correctTerm = flashCards[index].term;
+    const incorrectTerms = flashCards
+      .filter((card) => card.term !== correctTerm)
+      .map((card) => card.term)
+      .sort(() => 0.5 - Math.random())
+      .slice(0, 3);
+  
+    return [...incorrectTerms, correctTerm].sort(() => 0.5 - Math.random());
+  };
+
   if (gameOver) {
     return (
-      <div>
+      <div className="speed-challenge-container game-over">
         <h2>Game Over!</h2>
         <p>Your final score: {score}</p>
-        <button onClick={() => { setIndex(0); setScore(0); setTimeLeft(5); setGameOver(false); }}>Restart</button>
+        <button className="restart-button" onClick={() => { setIndex(0); setScore(0); setTimeLeft(10); setGameOver(false); }}>
+          Restart
+        </button>
       </div>
     );
-  }
+  }  
 
   return (
-    <div>
-      <h2>Flashcard Speed Challenge</h2>
-      <p>Score: {score}</p>
-      <p>Time Left: {timeLeft}s</p>
-      <p>{flashCards[index].question}</p>
-      {flashCards[index].options.map((option) => (
-        <button key={option} onClick={() => nextCard(option === flashCards[index].correct)}>
-          {option}
-        </button>
-      ))}
+    <div className="speed-challenge-container">
+      <h2>Flashcard Speed Challenge: {title}</h2>
+      <p className="score">Score: {score}</p>
+      <p className="timer">Time Left: {timeLeft}s</p>
+      {flashCards.length > 0 && (
+        <>
+          <p className="flashcard">{flashCards[index].definition}</p>
+          {currentOptions.map((term) => (
+            <button key={term} onClick={() => nextCard(term === flashCards[index].term)}>
+              {term}
+            </button>
+          ))}
+        </>
+      )}
     </div>
   );
 };
 
-export default FlashcardGame;
+export default SpeedChallenge;

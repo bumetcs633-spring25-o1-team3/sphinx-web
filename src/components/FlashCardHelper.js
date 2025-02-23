@@ -1,8 +1,8 @@
-import { backendUrl } from '../components/GlobalConsts.js';
+import { backendUrl } from './GlobalConsts.js';
 
-export const getFlashcards = async (setId) => {
+export const getFlashcards = async (authFetch, setId) => {
     try {
-        const response = await fetch(`${backendUrl}/set/${setId}`, {
+        const response = await authFetch(`${backendUrl}/flashcard-set/${setId}`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
@@ -11,13 +11,13 @@ export const getFlashcards = async (setId) => {
 
         if (response.ok) {
             const data = await response.json();
-            const formattedFlashcards = data.reduce((acc, card) => {
+            const formattedFlashcards = data.flashcards.reduce((acc, card) => {
                 acc[card.question] = card.answer;
                 return acc;
             }, {});
-            return formattedFlashcards;
+            return {flashcards: formattedFlashcards, description: data.description, title: data.name};
         } else {
-            console.error('Bad Response:', error);
+            console.error('Bad Response');
             return null;
         }
     } catch (error) {

@@ -1,50 +1,55 @@
 import { useState, useContext, useEffect } from "preact/hooks";
 import { Link } from 'preact-router';
 import { backendUrl } from '../components/GlobalConsts.js';
+import { AuthContext } from '../auth/AuthContext';
+import "./sets.css";
 
 const Flashcards = () => {
-    const { user } = useContext(AuthContext);
     const [flashCardSets, setFlashCardSets,] = useState([]);
+    const { authFetch } = useContext(AuthContext);
 
     const getFlashcards = async () => {
         try {
-            const response = await fetch(`${backendUrl}/auth/refresh-token`, {
-                method: 'POST',
+            const response = await authFetch(`${backendUrl}/flashcard-set/my-sets`, {
+                method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    refreshToken: tokens.refreshToken
-                })
+                }
             });
 
             if (response.ok) {
                 const data = await response.json();
-                localStorage.setItem('accessToken', data.accessToken);
-                localStorage.setItem('refreshToken', data.refreshToken);
-                setTokens({
-                    accessToken: data.accessToken,
-                    refreshToken: data.refreshToken
-                });
-                return data.accessToken;
+                setFlashCardSets(data);
+                return;
             } else {
-                // If refresh fails, sign out
-                signOut();
-                return null;
+                console.error('No sets found');
             }
         } catch (error) {
-            console.error('Token refresh failed:', error);
-            signOut();
-            return null;
+            console.error('Error retrieving sets:', error);
+            return;
         }
     };
 
+    useEffect(() => {
+        getFlashcards();
+    }, [])
     
     return (
-      <div>
-        <h1>404 - Page Not Found</h1>
-        <p>Oops! The page you're looking for doesn't exist.</p>
-      </div>
+        <div className="container">
+            {flashCardSets && flashCardSets.length > 0 && (
+                <>
+                    <h2>Flash Card Sets</h2>
+                    <div className="json-list">
+                        {flashCardSets.map((item) => (
+                            <Link href={`/flashcard-viewer/${item.id}`} className="json-box">
+                                <h3>{item.name}</h3>
+                                <p>{item.description}</p>
+                            </Link>
+                        ))}
+                    </div>
+                </>
+            )}
+        </div>
     );
   };
   
