@@ -3,11 +3,11 @@ import { AuthContext } from '../auth/AuthContext';
 import './CreateFlashcards.css';
 import { Plus, Minus } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { backendUrl } from '../components/GlobalConsts.js';
 
 const CreateFlashcards = () => {
     const { user } = useContext(AuthContext);
     const { authFetch } = useContext(AuthContext);
-    const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
     // If user is not authenticated, render nothing (PrivateRoute will handle redirect)
     if (!user) {

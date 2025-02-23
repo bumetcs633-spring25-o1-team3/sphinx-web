@@ -4,7 +4,7 @@
   "description": "Web UI for Sphinx",
   "main": "index.js",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --mode development",
     "build": "vite build",
     "start": "vite preview"
   },

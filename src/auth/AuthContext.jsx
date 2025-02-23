@@ -1,5 +1,6 @@
 import { createContext } from 'preact';
 import { useState, useEffect } from 'preact/hooks';
+import { backendUrl } from '../components/GlobalConsts.js';
 
 // store authentication state, accessible throughout the app
 export const AuthContext = createContext(null);
@@ -10,7 +11,6 @@ export const AuthProvider = ({ children }) => {
         accessToken: localStorage.getItem('accessToken'),
         refreshToken: localStorage.getItem('refreshToken')
     });
-    const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
     // Helper function to check if token is expired
     const isTokenExpired = (token) => {

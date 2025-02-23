@@ -28,7 +28,7 @@ export const Navbar = ({ user, onSignOut, backendUrl }) => {
                                     <span>Create New Flashcards</span>
                                 </Link>
 
-                                <Link href="/quizzes" className={`nav-link ${isLinkActive('/quizzes') ? 'active' : ''}`}>
+                                <Link href="/flashcard-sets" className={`nav-link ${isLinkActive('/flashcard-sets') ? 'active' : ''}`}>
                                     <span>Your Flashcards</span>
                                 </Link>
                             </>
