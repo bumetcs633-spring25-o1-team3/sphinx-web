@@ -28,16 +28,16 @@
   font-weight: bold;
 }
 
-h2 {
+.quiz-container h2 {
   color: #007bff;
   margin-bottom: 10px;
 }
 
-h3 {
+.quiz-container h3 {
   color: #555;
 }
 
-input {
+.quiz-container input {
   width: 80%;
   padding: 8px;
   margin-top: 10px;
@@ -46,7 +46,7 @@ input {
   font-size: 16px;
 }
 
-button {
+.quiz-container button {
   background-color: #007bff;
   color: white;
   border: none;
@@ -57,11 +57,11 @@ button {
   margin-top: 10px;
 }
 
-button:hover {
+.quiz-container button:hover {
   background-color: #0056b3;
 }
 
-p {
+.quiz-container p {
   font-size: 18px;
   font-weight: bold;
 }

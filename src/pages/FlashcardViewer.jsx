@@ -27,38 +27,40 @@ const FlashCardViewer = ({ id }) => {
 
   return (
     <>
-      {flashCards && Object.entries(flashCards).length > 0 && (
+      {flashCards && Object.keys(flashCards).length > 0 && (
         <div className="flashcard-container">
           <div className="flashcard-viewer">
             <h3>{title}</h3>
             <p>{desc}</p>
           </div>
-          <div>
-            <Link href={`/quiz/${id}`} className="link-button" style={{ marginRight: "20px" }}>
+
+          <div className="button-container">
+            <Link href={`/quiz/${id}`} className="link-button">
               Quiz
             </Link>
             <Link href={`/speed-challenge/${id}`} className="link-button">
               Speed Challenge
             </Link>
           </div>
+
           <div className="flashcard-grid">
-              {Object.entries(flashCards).map(([key, value]) => (
-                <div
-                  key={key}
-                  className={`flashcard ${flippedCards[key] ? 'flipped' : ''}`}
-                  onClick={() => toggleFlip(key)}
-                >
-                  <div className="flashcard-inner">
-                    <div className="flashcard-front">
-                      <p>{key}</p>
-                    </div>
-                    <div className="flashcard-back">
-                      <p>{value}</p>
-                    </div>
+            {Object.entries(flashCards).map(([key, value]) => (
+              <div
+                key={key}
+                className={`flashcard ${flippedCards[key] ? 'flipped' : ''}`}
+                onClick={() => toggleFlip(key)}
+              >
+                <div className="flashcard-inner">
+                  <div className="flashcard-face flashcard-front">
+                    <p>{key}</p>
+                  </div>
+                  <div className="flashcard-face flashcard-back">
+                    <p>{value}</p>
                   </div>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
+          </div>
         </div>
       )}
     </>
