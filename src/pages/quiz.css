@@ -65,3 +65,21 @@
   font-size: 18px;
   font-weight: bold;
 }
+
+.quiz-container .button-link {
+  display: inline-block;
+  background-color: #28a745;
+  color: white;
+  text-decoration: none;
+  padding: 10px 15px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 10px;
+  border: none;
+  text-align: center;
+}
+
+.quiz-container .button-link:hover {
+  background-color: #218838;
+}

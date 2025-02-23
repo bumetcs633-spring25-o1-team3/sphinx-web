@@ -2,6 +2,7 @@ import { useState, useContext, useEffect } from "preact/hooks";
 import { getFlashcards } from '../components/FlashCardHelper.js';
 import { AuthContext } from '../auth/AuthContext.jsx';
 import { shuffleArray } from "../components/GlobalConsts.js";
+import { Link } from "preact-router";
 import './challenge.css'
 
 const SpeedChallenge = ({ id }) => {
@@ -69,6 +70,9 @@ const SpeedChallenge = ({ id }) => {
         <button className="restart-button" onClick={() => { setIndex(0); setScore(0); setTimeLeft(10); setGameOver(false); }}>
           Restart
         </button>
+        <Link href={`/flashcard-viewer/${id}`} className="button-link">
+          Flashcards
+        </Link>
       </div>
     );
   }  

@@ -2,6 +2,7 @@ import { useState, useContext, useEffect } from "preact/hooks";
 import { getFlashcards } from '../components/FlashCardHelper.js';
 import { AuthContext } from '../auth/AuthContext.jsx';
 import { shuffleArray } from "../components/GlobalConsts.js";
+import { Link } from 'preact-router';
 import './quiz.css';
 
 const Quizzes = ({ id }) => {
@@ -54,7 +55,7 @@ const Quizzes = ({ id }) => {
           <div>
             <h3>Definition: {remainingQuestions[0].definition}</h3>
             <h3>What is the term?</h3>
-            <input type='text' onInput={(e) => setGuess(e.target.value)} />
+            <input type='text' onInput={(e) => setGuess(e.target.value)} style={{marginRight: '10px'}}/>
             <button onClick={checkGuess}>Submit</button>
           </div>
         </div>
@@ -65,6 +66,9 @@ const Quizzes = ({ id }) => {
           <h3>Congratulations, you finished the quiz</h3>
           <p>Your Score: {(numCorrect/numOfQuestions * 100).toFixed(2)}%</p>
           <button onClick={playAgain}>Try Again?</button>
+          <Link href={`/flashcard-viewer/${id}`} className="button-link">
+            Flashcards
+          </Link>
         </div>
       )}
     </>
