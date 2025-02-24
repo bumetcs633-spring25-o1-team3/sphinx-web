@@ -13,6 +13,10 @@
   margin-bottom: 20px;
 }
 
+.flashcard-viewer p {
+  font-size: smaller;
+}
+
 .button-container {
   display: flex;
   gap: 20px;
@@ -26,9 +30,13 @@
   padding: 20px;
   width: 100%;
   max-width: 1000px;
-  margin: 0 auto;
+  margin: 10px auto;
   flex-grow: 1;
-  overflow-y: scroll;
+  overflow-y: auto;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background-color: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 @media (min-width: 900px) {
@@ -83,18 +91,26 @@
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   text-align: center;
-  font-size: 18px;
-  font-weight: bold;
+  font-size: smaller;
+  box-sizing: border-box;
+  padding: 1rem;
 }
 
 .flashcard-front {
-  background: linear-gradient(135deg, #6a11cb, #2575fc);
-  color: white;
+  font-weight: bolder;
+  background: #ebf8ff;
+  /* Very light blue */
+  color: #2b6cb0;
+  border: 1px solid #bee3f8;
 }
 
 .flashcard-back {
-  background: linear-gradient(135deg, #ff7e5f, #feb47b);
-  color: white;
+  font-weight: lighter;
+  text-align: justify;
+  background: #f0fff4;
+  /* Very light green */
+  color: #2f855a;
+  border: 1px solid #c6f6d5;
   transform: rotateY(180deg);
 }
 
@@ -108,8 +124,19 @@
   font-weight: 600;
   text-align: center;
   transition: background-color 0.2s ease-in-out;
+  border: none;
+  cursor: pointer;
+  font-size: smaller;
 }
 
 .link-button:hover {
   background-color: #2563eb;
+}
+
+.delete-button {
+  background-color: #ef4444;
+}
+
+.delete-button:hover {
+  background-color: #dc2626;
 }

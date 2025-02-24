@@ -20,6 +20,7 @@ const Main = () => (
         <AuthCallback path="/auth-callback" />
         <Home path="/" />
         <PrivateRoute path="/create-flashcards" component={CreateFlashcards} />
+        <PrivateRoute path="/create-flashcards/:id" component={CreateFlashcards} />
         <PrivateRoute path="/quizzes" component={Quizzes} />
         <PrivateRoute path="/flashcard-sets" component={Flashcards} />
         <PrivateRoute path="/flashcard-viewer/:id" component={FlashCardViewer} />
