@@ -108,8 +108,19 @@
   font-weight: 600;
   text-align: center;
   transition: background-color 0.2s ease-in-out;
+  border: none;
+  cursor: pointer;
+  font-size: medium;
 }
 
 .link-button:hover {
   background-color: #2563eb;
+}
+
+.delete-button {
+  background-color: #ef4444;
+}
+
+.delete-button:hover {
+  background-color: #dc2626;
 }
