@@ -12,4 +12,9 @@ export default defineConfig({
       input: 'index.html', // Ensure Vite knows where to start
     },
   },
+  test: {
+    environment: 'happy-dom', // Simulates a browser environment
+    setupFiles: './vitest.setup.js',
+    globals: true, // Allows using `describe`, `it`, and `expect` globally
+  },
 });
