@@ -41,6 +41,9 @@ const FlashCardViewer = ({ id }) => {
             <Link href={`/speed-challenge/${id}`} className="link-button">
               Speed Challenge
             </Link>
+            <Link href={`/create-flashcards/${id}`} className="link-button edit-button">
+              Edit Set
+            </Link>
           </div>
 
           <div className="flashcard-grid">
