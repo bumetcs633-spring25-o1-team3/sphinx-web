@@ -5,8 +5,8 @@ import { Link, useRouter } from 'preact-router';
 export const Navbar = ({ user, onSignOut, backendUrl }) => {
 
     const [router] = useRouter();
-    const isLinkActive = (path) => {
-        return router.url === path;
+    const isLinkActive = (patterns) => {
+        return patterns.some(pattern => new RegExp(pattern).test(router.url));
     };
     
     return (
@@ -20,15 +20,19 @@ export const Navbar = ({ user, onSignOut, backendUrl }) => {
                     <div className="nav-links">
                         {user ? (
                             <>
-                                <Link href="/" className={`nav-link ${isLinkActive('/') ? 'active' : ''}`}>
+                                <Link href="/" className={`nav-link ${isLinkActive(['^/$']) ? 'active' : ''}`}>
                                     <span>Home</span>
                                 </Link>
 
-                                <Link href="/create-flashcards" className={`nav-link ${isLinkActive('/create-flashcards') ? 'active' : ''}`}>
+                                <Link href="/create-flashcards" className={`nav-link ${isLinkActive(['/create-flashcards','^/create-flashcards/[^/]+$']) ? 'active' : ''}`}>
                                     <span>Create New Flashcards</span>
                                 </Link>
 
-                                <Link href="/flashcard-sets" className={`nav-link ${isLinkActive('/flashcard-sets') ? 'active' : ''}`}>
+                                <Link href="/flashcard-sets" className={`nav-link ${isLinkActive(['/flashcard-sets',
+                                    '^/flashcard-viewer/[^/]+$',
+                                    '^/quiz/[^/]+$',
+                                    '^/speed-challenge/[^/]+$'
+                                ]) ? 'active' : ''}`}>
                                     <span>Your Flashcards</span>
                                 </Link>
                             </>
