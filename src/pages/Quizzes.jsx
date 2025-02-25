@@ -56,7 +56,7 @@ const Quizzes = ({ id }) => {
           <div>
             <h3>Definition: {remainingQuestions[0].definition}</h3>
             <h3>What is the term?</h3>
-            <input type='text' onInput={(e) => setGuess(e.target.value)} style={{marginRight: '10px'}}/>
+            <input type='text' value={guess} onInput={(e) => setGuess(e.target.value)} style={{marginRight: '10px'}}/>
             <button onClick={checkGuess}>Submit</button>
           </div>
         </div>
