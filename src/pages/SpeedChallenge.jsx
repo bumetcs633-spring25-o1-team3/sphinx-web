@@ -43,9 +43,10 @@ const SpeedChallenge = ({ id }) => {
     if (isCorrect) setScore(score + timeLeft * 10);
     console.log(currentOptions);
     if (index < flashCards.length - 1) {
-      setIndex(index + 1);
+      const newIndex = index + 1;
+      setIndex(newIndex);
       setTimeLeft(10);
-      setCurrentOptions(getFlashcardOptions(flashCards, index));
+      setCurrentOptions(getFlashcardOptions(flashCards, newIndex));
     } else {
       setGameOver(true);
     }
