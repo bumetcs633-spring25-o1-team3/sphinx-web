@@ -18,6 +18,7 @@ const Quizzes = ({ id }) => {
     if (guess.toLowerCase() === remainingQuestions[0].term.toLowerCase()) {
       setNumCorrect(numCorrect+1);
     }
+    setGuess('');
     setRemainingQuestions(remainingQuestions.slice(1));
   }
 
